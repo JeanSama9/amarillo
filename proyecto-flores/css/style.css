@@ -114,7 +114,7 @@ select {
     "M 44 16 C 44 7 37 0 28 0 C 21 0 15 5 13 11 C 11 5 5 0 -2 0 C -11 0 -18 7 -18 16 C -18 28 -6 37 13 53 C 32 37 44 28 44 16 Z"
   );
   opacity: 0.38;
-  animation: driftHeart 16s linear infinite;
+  animation: driftHeart 8s ease-in-out infinite;
 }
 
 .heart-blur--1 {
@@ -125,25 +125,25 @@ select {
 .heart-blur--2 {
   top: 26%;
   right: 12%;
-  animation-delay: -6s;
+  animation-delay: -2.8s;
 }
 
 .heart-blur--3 {
   bottom: 16%;
   left: 18%;
-  animation-delay: -10s;
+  animation-delay: -4.4s;
 }
 
 .heart-blur--4 {
   top: 52%;
   right: 22%;
-  animation-delay: -3s;
+  animation-delay: -1.6s;
 }
 
 .heart-blur--5 {
   bottom: 8%;
   right: 8%;
-  animation-delay: -12s;
+  animation-delay: -5.2s;
 }
 
 /* Portada */
@@ -525,7 +525,7 @@ body.is-open .love-card {
   animation-delay: -2.3s;
 }
 
-/* Pétalos flotando */
+/* Hojas flotando desde el árbol */
 .love-card__petals {
   position: absolute;
   inset: 0;
@@ -536,23 +536,39 @@ body.is-open .love-card {
 
 .petal {
   position: absolute;
-  top: -10%;
+  top: 18%;
+  left: 72%;
   width: 1rem;
-  height: 1rem;
-  opacity: 0.72;
+  height: 0.72rem;
+  opacity: 0.82;
   background:
-    radial-gradient(circle at 50% 50%, rgba(255, 238, 176, 0.95), rgba(243, 191, 52, 0.92));
-  border-radius: 50% 50% 50% 10%;
-  box-shadow: 0 0 8px rgba(255, 211, 110, 0.38);
+    radial-gradient(circle at 38% 38%, rgba(255, 244, 192, 0.98), rgba(245, 199, 63, 0.96) 52%, rgba(208, 151, 34, 0.94));
+  border-radius: 65% 10% 65% 10%;
+  box-shadow: 0 0 8px rgba(255, 211, 110, 0.3);
+  transform-origin: center;
   animation: petalFall linear infinite;
 }
 
 .petal::after {
   content: "";
   position: absolute;
-  inset: 0.18rem;
-  border-radius: 50%;
-  background: rgba(134, 82, 24, 0.2);
+  left: 48%;
+  top: 8%;
+  width: 1px;
+  height: 84%;
+  background: rgba(129, 83, 28, 0.36);
+  transform: rotate(22deg);
+}
+
+.petal::before {
+  content: "";
+  position: absolute;
+  left: 72%;
+  top: 52%;
+  width: 0.34rem;
+  height: 1px;
+  background: rgba(126, 96, 34, 0.42);
+  transform: rotate(30deg);
 }
 
 .love-card__footer-line {
@@ -644,7 +660,7 @@ body.is-open .love-card {
     transform: translateY(0) rotate(0deg) scale(1);
   }
   50% {
-    transform: translateY(-16px) rotate(6deg) scale(1.05);
+    transform: translate3d(12px, -26px, 0) rotate(8deg) scale(1.09);
   }
 }
 
@@ -702,14 +718,23 @@ body.is-open .love-card {
 
 @keyframes petalFall {
   0% {
-    transform: translate3d(0, -8%, 0) rotate(0deg);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(0.9);
     opacity: 0;
   }
-  10% {
-    opacity: 0.75;
+  8% {
+    opacity: 0.88;
+  }
+  28% {
+    transform: translate3d(calc(var(--drift-x) * 0.25), 2.6rem, 0) rotate(85deg) scale(1);
+  }
+  54% {
+    transform: translate3d(calc(var(--drift-x) * 0.58), 6.5rem, 0) rotate(155deg) scale(0.98);
+  }
+  76% {
+    transform: translate3d(calc(var(--drift-x) * 0.82), 10.6rem, 0) rotate(228deg) scale(0.94);
   }
   100% {
-    transform: translate3d(var(--drift-x), 118%, 0) rotate(var(--rotate-end));
+    transform: translate3d(var(--drift-x), 15rem, 0) rotate(var(--rotate-end)) scale(0.88);
     opacity: 0;
   }
 }

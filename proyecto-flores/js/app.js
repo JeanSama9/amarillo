@@ -2,12 +2,12 @@
 const CONFIG = {
   // Cambia esta fecha por el momento en que empezaron a salir.
   // Formato recomendado: YYYY-MM-DDTHH:MM:SS
-  startDate: "2024-10-19T00:00:00"
+  startDate: "2025-01-01T00:00:00"
 };
 
 // Textos configurables de la experiencia.
 const APP_COPY = {
-  coverTitle: "🌻 Flores Para Ti",
+  coverTitle: "Flores Para Ti",
   coverHint: "Toca para abrir la carta",
   cardTitle: "Flores Amarillas para el amor de mi vida:",
   messageLines: [
@@ -17,7 +17,7 @@ const APP_COPY = {
   counterLabel: "Mi amor por ti comenzó hace..."
 };
 
-const startDate = new Date(CONFIG.startDate);
+const startDate = createSafeDate(CONFIG.startDate);
 
 const state = {
   timerId: null
@@ -131,19 +131,22 @@ function createPetals(layer, amount) {
   for (let index = 0; index < amount; index += 1) {
     const petal = document.createElement("span");
     const size = randomBetween(10, 18);
-    const duration = prefersReducedMotion ? 0.01 : randomBetween(12, 22);
-    const delay = prefersReducedMotion ? 0 : randomBetween(-18, 0);
-    const drift = `${randomBetween(-40, 42)}px`;
-    const rotation = `${randomBetween(120, 280)}deg`;
+    const duration = prefersReducedMotion ? 0.01 : randomBetween(5.5, 10.5);
+    const delay = prefersReducedMotion ? 0 : randomBetween(-10, 0);
+    const drift = `${randomBetween(-250, -120)}px`;
+    const rotation = `${randomBetween(180, 340)}deg`;
 
     petal.className = "petal";
-    petal.style.left = `${randomBetween(2, 94)}%`;
+    // Las hojas nacen cerca de la copa del árbol y el viento las empuja hacia la izquierda.
+    petal.style.left = `${randomBetween(62, 86)}%`;
+    petal.style.top = `${randomBetween(14, 37)}%`;
     petal.style.width = `${size}px`;
-    petal.style.height = `${size}px`;
+    petal.style.height = `${size * 0.74}px`;
     petal.style.animationDuration = `${duration}s`;
     petal.style.animationDelay = `${delay}s`;
     petal.style.setProperty("--drift-x", drift);
     petal.style.setProperty("--rotate-end", rotation);
+    petal.style.opacity = `${randomBetween(0.62, 0.9)}`;
 
     fragment.appendChild(petal);
   }
@@ -156,9 +159,26 @@ function randomBetween(min, max) {
 }
 
 function formatDate(date) {
+  if (Number.isNaN(date.getTime())) {
+    return "una fecha especial";
+  }
+
   return new Intl.DateTimeFormat("es-EC", {
     day: "2-digit",
     month: "long",
     year: "numeric"
   }).format(date);
+}
+
+function createSafeDate(dateString) {
+  const parsedDate = new Date(dateString);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    console.warn(
+      `La fecha "${dateString}" no es valida. Usa el formato YYYY-MM-DDTHH:MM:SS.`
+    );
+    return new Date();
+  }
+
+  return parsedDate;
 }
